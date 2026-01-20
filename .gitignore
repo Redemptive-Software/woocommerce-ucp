@@ -1,0 +1,76 @@
+# PHP / Composer
+vendor/
+composer.lock   # Optional: commit if you want reproducible deps; many plugins do
+.php_cs.cache
+.phpunit.result.cache
+
+# WordPress / WooCommerce specific
+wp-config.php
+wp-config-sample.php
+.wp-cli/
+*.sql
+*.sql.gz
+*.bak
+*.log
+error_log
+
+# WordPress directories (ignore core, uploads, etc.)
+wp-admin/
+wp-includes/
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/blogs.dir/
+wp-content/cache/
+wp-content/languages/
+wp-content/mu-plugins/*          # Ignore all mu-plugins unless whitelisted
+wp-content/plugins/*             # Ignore all plugins unless whitelisted
+!wp-content/plugins/woocommerce-ucp/   # <-- IMPORTANT: whitelist your own plugin folder
+wp-content/themes/*              # Ignore themes unless needed
+!wp-content/themes/your-theme/   # If you include a custom theme, whitelist it
+
+# Development / build artifacts
+node_modules/
+dist/
+build/
+coverage/
+.DS_Store
+Thumbs.db
+*.bak
+*.swp
+*.swo
+*.tmp
+.env
+.env.local
+.env.*.local
+
+# IDE / editor files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.project
+.settings/
+.netbeans/
+
+# Testing / temp
+tests/_output/
+tests/_support/_generated/
+.phpintel
+xdebug*
+
+# Logs and caches
+*.log
+*.cache
+cache/
+temp/
+tmp/
+
+# OS generated
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
