@@ -25,25 +25,35 @@ class AuthServer {
 	 * Constructor.
 	 */
 	public function __construct() {
+		add_action( 'init', array( $this, 'add_rewrite_rules' ) );
+		add_filter( 'query_vars', array( $this, 'add_query_vars' ) );
+		add_action( 'template_redirect', array( $this, 'maybe_handle_authorization' ) );
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
+	}
+
+	/**
+	 * Add rewrite rule for authorization.
+	 */
+	public function add_rewrite_rules() {
+		add_rewrite_rule( '^ucp/auth/?$', 'index.php?ucp_auth=1', 'top' );
+	}
+
+	/**
+	 * Add query variable for authorization.
+	 *
+	 * @param array $vars Query variables.
+	 * @return array
+	 */
+	public function add_query_vars( $vars ) {
+		$vars[] = 'ucp_auth';
+		return $vars;
 	}
 
 	/**
 	 * Register Auth routes.
 	 */
 	public function register_routes() {
-		// Authorization Code endpoint.
-		register_rest_route(
-			$this->namespace,
-			'/auth',
-			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'handle_authorization' ),
-				'permission_callback' => '__return_true',
-			)
-		);
-
-		// Token endpoint.
+		// Token endpoint remains a REST route as it is a machine-to-machine POST request.
 		register_rest_route(
 			$this->namespace,
 			'/token',
@@ -56,18 +66,28 @@ class AuthServer {
 	}
 
 	/**
-	 * Handle authorization request.
-	 *
-	 * @param WP_REST_Request $request Full details about the request.
+	 * Catch the authorization rewrite rule.
 	 */
-	public function handle_authorization( $request ) {
-		$client_id    = $request->get_param( 'client_id' );
-		$redirect_uri = $request->get_param( 'redirect_uri' );
-		$state        = $request->get_param( 'state' );
+	public function maybe_handle_authorization() {
+		if ( get_query_var( 'ucp_auth' ) ) {
+			$this->handle_authorization();
+		}
+	}
 
-		// In a real implementation, this would redirect to a login/consent page.
-		// For MVP, we'll simulate a successful authorization if the user is logged in.
-		if ( ! is_user_logged_in() ) {
+	/**
+	 * Handle authorization request.
+	 */
+	public function handle_authorization() {
+		$client_id    = isset( $_GET['client_id'] ) ? sanitize_text_field( $_GET['client_id'] ) : '';
+		$redirect_uri = isset( $_GET['redirect_uri'] ) ? esc_url_raw( $_GET['redirect_uri'] ) : '';
+		$state        = isset( $_GET['state'] ) ? sanitize_text_field( $_GET['state'] ) : '';
+
+		if ( empty( $redirect_uri ) ) {
+			wp_die( 'Missing redirect_uri parameter.' );
+		}
+
+		// For MVP, we'll simulate a successful authorization if the user has basic access.
+		if ( ! is_user_logged_in() || ! current_user_can( 'read' ) ) {
 			auth_redirect();
 		}
 

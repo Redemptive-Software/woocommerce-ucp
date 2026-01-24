@@ -53,6 +53,10 @@ function woo_ucp_activate() {
 		add_action( 'admin_notices', 'woo_ucp_missing_wc_notice' );
 		return;
 	}
+
+	// Initialize components to register rewrite rules before flushing.
+	WooUcp::instance();
+	flush_rewrite_rules();
 }
 
 if ( ! class_exists( 'WooUcp' ) ) :

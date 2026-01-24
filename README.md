@@ -62,7 +62,7 @@ AI agents use these endpoints to understand your store's capabilities:
 ### 2. Testing Identity Linking
 You can simulate the AI Agent's authorization flow:
 1. Navigate to your store in a browser.
-2. Visit `https://yourstore.com/wp-json/ucp/v1/auth?client_id=test&redirect_uri=https://example.com&state=123`.
+2. Visit `https://yourstore.com/ucp/auth?client_id=test&redirect_uri=https://example.com&state=123`.
 3. If logged in, you should be redirected to the `redirect_uri` with a `code` parameter.
 4. Use that `code` to request a token via `POST /wp-json/ucp/v1/token`.
 

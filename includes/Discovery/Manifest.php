@@ -57,7 +57,7 @@ class Manifest {
 			'version'      => '2026-01-11',
 			'endpoints'    => array(
 				'checkout_sessions' => rest_url( 'ucp/v1/checkout-sessions' ),
-				'identity_linking'  => rest_url( 'ucp/v1/identity-linking' ),
+				'identity_linking'  => home_url( 'ucp/auth' ),
 			),
 			'capabilities' => array(
 				'checkout',
@@ -75,7 +75,7 @@ class Manifest {
 	private function render_oauth_discovery() {
 		$discovery = array(
 			'issuer'                                => home_url(),
-			'authorization_endpoint'                => rest_url( 'ucp/v1/auth' ),
+			'authorization_endpoint'                => home_url( 'ucp/auth' ),
 			'token_endpoint'                        => rest_url( 'ucp/v1/token' ),
 			'response_types_supported'              => array( 'code' ),
 			'subject_types_supported'               => array( 'public' ),
