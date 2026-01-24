@@ -1,10 +1,11 @@
-<?php
+declare(strict_types=1);
 
 namespace WooUcp\API;
 
 use WP_REST_Controller;
 use WP_REST_Server;
 use WP_REST_Response;
+use WP_REST_Request;
 use WP_Error;
 
 /**
@@ -89,7 +90,7 @@ class Controller extends WP_REST_Controller {
 	public function get_item_permissions_check( $request ) {
 		$header = $request->get_header( 'Authorization' );
 
-		if ( ! $header || strpos( $header, 'Bearer ' ) !== 0 ) {
+		if ( ! $header || ! str_starts_with( (string) $header, 'Bearer ' ) ) {
 			return new WP_Error( 'rest_forbidden', 'Missing or invalid Authorization header', array( 'status' => 401 ) );
 		}
 

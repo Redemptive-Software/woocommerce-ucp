@@ -38,9 +38,9 @@ UCP is an open standard launched in January 2026 by Google and industry partners
 
 ## Installation
 
-1. **Download or Clone**:
+1. **Download or Clone into WP Plugins Directory**:
    ```bash
-   git clone https://github.com/RedemptiveSoftware/woocommerce-ucp.git
+   git -c credential.helper= clone https://github.com/Redemptive-Software/woocommerce-ucp.git
    ```
 2. **Install Dependencies**:
    Ensure you are in the plugin's root directory and run:

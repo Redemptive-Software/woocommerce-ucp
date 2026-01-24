@@ -1,4 +1,4 @@
-<?php
+declare(strict_types=1);
 
 namespace WooUcp\Integration;
 
@@ -18,8 +18,9 @@ class CheckoutHandler {
 	 *
 	 * @param string $session_id UCP session ID.
 	 * @param array  $items      UCP line items.
+	 * @return bool
 	 */
-	public function sync_cart( $session_id, $items ) {
+	public function sync_cart( string $session_id, array $items ): bool {
 		if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
 			return false;
 		}
@@ -66,7 +67,7 @@ class CheckoutHandler {
 	 * @param string $session_id Session ID.
 	 * @return string
 	 */
-	public function get_checkout_url( $session_id ) {
+	public function get_checkout_url( string $session_id ): string {
 		return add_query_arg( 'ucp_session', $session_id, wc_get_checkout_url() );
 	}
 }

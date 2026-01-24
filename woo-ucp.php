@@ -1,6 +1,7 @@
 <?php
 /**
  * Plugin Name: UCP for WooCommerce
+ * Description: Enables WooCommerce stores to be compatible with the Universal Commerce Protocol (UCP).
  * Version: 0.1.0
  * Author: Redemptive Software
  * Author URI: https://redemptivesoftware.com
@@ -60,11 +61,18 @@ if ( ! class_exists( 'WooUcp' ) ) :
 	 */
 	class WooUcp {
 		/**
+		 * The plugin version.
+		 *
+		 * @var string
+		 */
+		public $version = '0.1.0';
+
+		/**
 		 * This class instance.
 		 *
-		 * @var \WooUcp single instance of this class.
+		 * @var WooUcp|null
 		 */
-		private static $instance;
+		private static $instance = null;
 
 		/**
 		 * Constructor.
@@ -107,9 +115,9 @@ if ( ! class_exists( 'WooUcp' ) ) :
 		 *
 		 * Ensures only one instance can be loaded.
 		 *
-		 * @return \woo_ucp
+		 * @return WooUcp
 		 */
-		public static function instance() {
+		public static function instance(): self {
 
 			if ( null === self::$instance ) {
 				self::$instance = new self();

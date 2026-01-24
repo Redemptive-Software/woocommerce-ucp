@@ -1,9 +1,10 @@
-<?php
+declare(strict_types=1);
 
 namespace WooUcp\Security;
 
 use WP_REST_Server;
 use WP_REST_Response;
+use WP_REST_Request;
 use WP_Error;
 
 /**
