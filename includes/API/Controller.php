@@ -121,7 +121,7 @@ class Controller extends WP_REST_Controller {
 		$session_id = wp_generate_password( 32, false );
 
 		$handler = new \WooUcp\Integration\CheckoutHandler();
-		$success = $handler->sync_cart( $session_id, $items );
+		$success = $handler->save_session( $session_id, $items );
 
 		if ( ! $success ) {
 			return new WP_Error( 'ucp_error', 'Failed to create session/cart', array( 'status' => 500 ) );
